@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accounting.server.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.accounting.server.pojo.User">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="nickname" property="nickname" />
+        <result column="profile_photo" property="profilePhoto" />
+        <result column="recent_login" property="recentLogin" />
+        <result column="reg_time" property="regTime" />
+        <result column="extension_filed1" property="extensionFiled1" />
+        <result column="extension_filed2" property="extensionFiled2" />
+        <result column="extension_filed3" property="extensionFiled3" />
+        <result column="extension_filed4" property="extensionFiled4" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, username, password, nickname, profile_photo, recent_login, reg_time, extension_filed1, extension_filed2, extension_filed3, extension_filed4
+    </sql>
+    <select id="IsUserExist" resultType="com.accounting.server.pojo.User">
+        select * from t_user where username = #{username}
+    </select>
+</mapper>

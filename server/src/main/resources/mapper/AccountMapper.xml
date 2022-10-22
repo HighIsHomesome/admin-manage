@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accounting.server.mapper.AccountMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.accounting.server.pojo.Account">
+        <id column="id" property="id" />
+        <result column="type" property="type" />
+        <result column="category" property="category" />
+        <result column="subCategory" property="subCategory" />
+        <result column="description" property="description" />
+        <result column="value" property="value" />
+        <result column="date" property="date" />
+        <result column="pay" property="pay" />
+        <result column="userid" property="userid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, type, category, subCategory, description, value, date, pay, userid
+    </sql>
+
+    <select id="getAccountsByUserId" resultType="com.accounting.server.pojo.Account">
+        select * from account where userId = #{userId}
+    </select>
+    <select id="getAccountsByUserIdAndSharedId" resultType="com.accounting.server.pojo.Account">
+        select * from account where userId = #{userId} or userId = #{shareAccount}
+    </select>
+
+    <insert id="addAccount">
+    insert into account(type,category,subCategory,description,value,date,userid,pay) values(#{type},#{category},#{subCategory},#{description},#{value},#{date},#{userid},#{pay})
+    </insert>
+    <update id="modifyItemById">
+        update account set value = #{value},date = #{date} ,description = #{description},category=#{category},subCategory=#{subCategory}
+        where id = #{id}
+    </update>
+    <select id="getAccountsSumValueByDate" resultType="com.accounting.server.pojo.dto.SumValueByDate">
+        select date, sum(value) as value, category from (SELECT
+        STR_TO_DATE(date, '%Y/%m/%d') as date,value,userid,category from account ) as a
+        where date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
+        and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
+        and (userid = #{userId}
+        <if test="userId != shareId and shareId != null">
+         or userid = #{shareId}
+        </if>
+        ) group by date , category
+        order by date
+    </select>
+    <select id="getAccountsSumValueByCategory" resultType="com.accounting.server.pojo.dto.SumValueByDate">
+        select date, sum(value) as value, category from (SELECT
+        STR_TO_DATE(date, '%Y/%m/%d') as date,value,userid,category from account ) as a
+        where date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
+        and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
+        and (userid = #{userId}
+        <if test="userId != shareId and shareId != null">
+            or userid = #{shareId}
+        </if>
+        ) group by date , category
+        order by category
+    </select>
+    <select id="getAccountsByCondition" resultType="com.accounting.server.pojo.Account">
+        select * from account where userid in
+        (select share_account from share where share_account =
+        (select extension_filed1 from t_user where username=#{username})
+        or shared_account = (select extension_filed1 from t_user where username=#{username})
+        UNION
+        select shared_account from share where share_account =
+        (select extension_filed1 from t_user where username=#{username})
+        or shared_account = (select extension_filed1 from t_user where username=#{username})
+        )
+        and date >= STR_TO_DATE(#{accountVO.startDate},'%Y/%m/%d')
+        and date &lt;= STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d')
+        <if test="accountVO.keyword != null and accountVO.keyword !=''">
+            and description like concat('%',#{accountVO.keyword},'%')
+        </if>
+        <if test="accountVO.category != null and accountVO.category !=''">
+            and category = #{accountVO.category}
+        </if>
+        <if test="accountVO.subCategory != null and accountVO.subCategory !=''">
+            and subCategory = #{accountVO.subCategory}
+        </if>
+        order by STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d') desc
+    </select>
+</mapper>
