@@ -1,5 +1,5 @@
 import React, {Props,useState} from 'react'
-import {InfiniteScroll,NavBar,List,SwipeAction,Tag,Form,Input,Cascader,Popup,Calendar,Empty,Toast} from 'antd-mobile'
+import {InfiniteScroll,NavBar,List,SwipeAction,Tag,Form,Input,Cascader,Popup,Calendar,Empty,Toast,Button} from 'antd-mobile'
 import {mockRequest} from './mock-request'
 import {GetAccountsByCondition,GetAccounts} from './request/api';
 import {Action,SwipeActionRef} from 'antd-mobile/es/components/swipe-action'
@@ -7,6 +7,7 @@ import AutoFunction from '../component/AutoFunction'
 import {payConfig} from '../customConfig/payConfig'
 import './less/home.less'
 import {Category} from  '../customConfig/catConfig'
+import {Link} from "react-router-dom";
 
 export default class Home extends React.Component < {
 	navList ? : any
@@ -185,7 +186,14 @@ export default class Home extends React.Component < {
 							
 					        <Form.Header />
 					        <Form.Item className="accountsFormItem">
-					        	{accounts.length>0?(<AutoFunction className='list_accounts' accounts={accounts} ></AutoFunction>):(<Empty className='emptyData' description='暂无数据' />)}
+					        	{accounts.length>0?(<AutoFunction className='list_accounts' accounts={accounts} ></AutoFunction>):(
+									<div>
+										<Empty className='emptyData' description='暂无数据' />
+										<Link style={{ textDecoration:'none'}} to="/login">
+											<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
+										</Link>
+
+									</div>)}
 					        </Form.Item>
 					</Form>
 					<Cascader

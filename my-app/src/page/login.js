@@ -42,7 +42,7 @@ const WarningOnlyDemo = () => {
 			if (res.code === 200) {
 				console.log(res.obj.user)
 				localStorage.setItem('token',res.obj.tol_token)
-				localStorage.setItem('userid',res.obj.user.extensionFiled1)
+				localStorage.setItem('userid',res.obj.user.id)
 				Toast.show({
 					content: '登录成功,即将进入主页!',
 					afterClose: () => {
