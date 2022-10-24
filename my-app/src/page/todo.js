@@ -43,7 +43,7 @@ export default class Todo extends React.Component{
 		  	content: res.msg,
 		  }) 
 		  if(res.code===200){
-				  window.location.reload()
+			  this.forceUpdate()
 		  }
 	  })
 	  
