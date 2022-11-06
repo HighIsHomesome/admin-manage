@@ -4,6 +4,7 @@ import {mockRequest} from './mock-request'
 import {GetAccountsByCondition,GetAccounts} from './request/api';
 import {Action,SwipeActionRef} from 'antd-mobile/es/components/swipe-action'
 import AutoFunction from '../component/AutoFunction'
+import WithList from '../component/WithList'
 import {payConfig} from '../customConfig/payConfig'
 import './less/home.less'
 import {Category} from  '../customConfig/catConfig'

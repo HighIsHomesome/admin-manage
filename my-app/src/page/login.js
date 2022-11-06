@@ -3,6 +3,7 @@ import Logo from './img/logo.png'
 import Title from './img/title.png'
 import './less/Login.less'
 import { LoginApi } from './request/api';
+import {Background} from '../component/Background'
 import {
 	Form,
 	Input,
@@ -13,6 +14,7 @@ import {
 	DatePicker,
 	Toast,
 } from 'antd-mobile'
+import {Link} from "react-router-dom";
 
 export default () => {
 	const [form] = Form.useForm()
@@ -25,6 +27,10 @@ export default () => {
 
 	return (
 		<>
+			{/*<div className="background">*/}
+			{/*	<Background></Background>*/}
+			{/*</div>*/}
+
 			<WarningOnlyDemo />
 		</>
 	)
@@ -60,41 +66,52 @@ const WarningOnlyDemo = () => {
 	}
 
 	return (
-		<Form
-			onFinish={onFinish}
-			footer={
-				<Button block type='submit' color='primary' size='large'>
-					登录
-				</Button>
-			}
-		>
-			<Form.Header>
-				<img className="logoPng" src={Logo} />
-				<img className="titlePng" src={Title} />
-			</Form.Header>
-			<Form.Item
-				name='username'
-				label='用户名'
-				rules={[
-					{ required: true },
-					{ type: 'string', min: 6 },
-				]}
+
+		<div>
+			<Form className="loginFormContainer"
+				onFinish={onFinish}
+				footer={
+					<Button block type='submit' color='primary' size='large'>
+						登录
+					</Button>
+				}
 			>
-				<Input placeholder='请输入用户名' />
-			</Form.Item>
-			<Form.Item
-				name='password'
-				label='密码'
-				rules={[
-					{ required: true },
-					{ type: 'string', min: 1 },
-				]}
-			>
-				<Input placeholder='请输入密码' />
-			</Form.Item>
-			<Form.Item>
-				<Link to="/register">没有账号？立即注册！</Link>
-			</Form.Item>
-		</Form>
+				<Form.Header>
+					<div id="water">
+						<span id="first">爱</span>
+						<span id="second">记</span>
+						<span id="third">登</span>
+						<span id="fourth">录</span>
+					</div>
+				</Form.Header>
+				<Form.Item
+					name='username'
+					label='用户名'
+					rules={[
+						{ required: true },
+						{ type: 'string', min: 6 },
+					]}
+				>
+					<Input placeholder='请输入用户名' />
+				</Form.Item>
+				<Form.Item
+					name='password'
+					label='密码'
+					rules={[
+						{ required: true },
+						{ type: 'string', min: 1 },
+					]}
+				>
+					<Input placeholder='请输入密码' />
+				</Form.Item>
+				<Form.Item>
+					<Link  style={{ textDecoration:'none'}} to="/login">手机号码登录</Link>
+				</Form.Item>
+				<Form.Item>
+					<Link  style={{ textDecoration:'none'}} to="/register">没有账号？立即注册！</Link>
+				</Form.Item>
+			</Form>
+		</div>
+
 	)
 }

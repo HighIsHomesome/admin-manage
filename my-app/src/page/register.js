@@ -64,8 +64,14 @@ const WarningOnlyDemo = () => {
 			}
 		>
 			<Form.Header>
-				<img className="logoPng" src={Logo} />
-				<img className="titlePng" src={Title} />
+				<div id="water">
+					<div id="water">
+						<span id="first">爱</span>
+						<span id="second">记</span>
+						<span id="third">注</span>
+						<span id="fourth">册</span>
+					</div>
+				</div>
 			</Form.Header>
 			<Form.Item
 				name='username'
@@ -111,7 +117,7 @@ const WarningOnlyDemo = () => {
 			                    type="password"/>
 			</Form.Item>
 			<Form.Item>
-				<Link to="/login">已有账号？立即登录！</Link>
+				<Link  style={{ textDecoration:'none'}} to="/login">已有账号？立即登录！</Link>
 			</Form.Item>
 		</Form>
 	)

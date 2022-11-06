@@ -31,7 +31,11 @@ export default (props) => {
     const item = props.accounts[index]
 	//console.log(props.accounts)
     return (
-		  
+		<SwipeAction
+			key={item.id}
+			leftActions={leftActions}
+			rightActions={rightActions}
+		>
 			  <List.Item
 				key={key}
 				style={style}
@@ -56,6 +60,7 @@ export default (props) => {
 				</Tag>
 
 			</List.Item>
+		</SwipeAction>
 
     )
   }
