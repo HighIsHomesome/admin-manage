@@ -10,3 +10,7 @@ export const GetAccounts = (params)=>request.get('/account/getAccounts?userId='+
 export const GetAccountsByCondition = (params)=>request.post('/account/getAccountsByCondition',params)
 // 新增记账条目
 export const AddAccount = (params)=>request.post('/account/addAccount',params)
+// 删除记账条目
+export const delAccount = (params)=>request.post('/account/delete/item',params)
+// 修改记账条目
+export const updateAccount = (params)=>request.post('/account/modify/item',params)

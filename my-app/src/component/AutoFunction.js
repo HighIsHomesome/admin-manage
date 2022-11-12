@@ -4,13 +4,51 @@ import { List as VirtualizedList, AutoSizer } from 'react-virtualized'
 import '../assets/AutoFunction.less'
 import {payConfig} from '../customConfig/payConfig'
 export default class AutoFunction extends React.Component{
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			initialClientX: 0,
+			finalClientX: 0,
+		}
+	}
+
+	handleTouchStart(event) {
+		console.log(event)
+		this.setState({
+			initialClientX: event.nativeEvent.touches[0].clientX
+		});
+	}
+
+	handleTouchMove(event) {
+		this.setState({
+			finalClientX: event.nativeEvent.touches[0].clientX
+		});
+	}
+
+	handleTouchEnd() {
+		if (this.state.finalClientX < this.state.initialClientX) {
+			console.log('swipe left')
+		}
+
+		this.setState({
+			initialClientX: 0,
+			finalClientX: 0
+		});
+	}
   //在componentDidMount，进行scroll事件的注册，绑定一个函数，让这个函数进行监听处理
    componentDidMount() {
-  	window.addEventListener('scroll', this.handleScroll, true);
+		window.addEventListener('scroll', this.handleScroll, true);
+	    // window.addEventListener('scroll', this.handleTouchMove, true);
+	    // window.addEventListener('scroll', this.handleTouchEnd, true);
+	    // window.addEventListener('scroll', this.handleTouchStart, true);
    }
   //在componentWillUnmount，进行scroll事件的注销
   componentWillUnmount() {
-          window.removeEventListener('scroll', this.handleScroll, true);
+	  window.addEventListener('scroll', this.handleScroll, true);
+	  // window.addEventListener('scroll', this.handleTouchMove, true);
+	  // window.addEventListener('scroll', this.handleTouchEnd, true);
+	  // window.addEventListener('scroll', this.handleTouchStart, true);
   }
   
   handleScroll=(event)=>{

@@ -38,22 +38,26 @@ public class AccountController {
     private IShareService shareService;
 
 
-    @GetMapping("/delete/item")
-    public CommonResponseObj delItem(Integer id) {
-        System.out.println(id);
-        if(iAccountService.removeById(id)){
+    @PostMapping("/delete/item")
+    public CommonResponseObj delItem(@RequestBody Account account) {
+        System.out.println(account.getId());
+        if(iAccountService.removeById(account.getId())){
             return new CommonResponseObj(200,"删除成功!",null);
         }
+
         return new CommonResponseObj(500,"删除失败!",null);
     }
 
     @PostMapping("/modify/item")
     public CommonResponseObj modifyItem(@RequestBody Account account){
         System.out.println(account);
-        boolean result = iAccountService.modifyItemById(account);
-        if(result){
-            return new CommonResponseObj(200,"修改成功!",null);
+        if(account != null){
+            boolean result = iAccountService.modifyItemById(account);
+            if(result){
+                return new CommonResponseObj(200,"修改成功!",null);
+            }
         }
+
         return new CommonResponseObj(500,"修改失败!",null);
     }
     @PostMapping("/getAccountsByCondition")

@@ -77,10 +77,9 @@ export default class Todo extends React.Component{
 	        </Form.Item>
 			<Form.Header>付款方式</Form.Header>
 	        <Form.Item >
-	          <CapsuleTabs ref='paymethod'  defaultActiveKey='wechat' onChange={(val)=>{this.setState({paymethod:val})}}>
+	          <CapsuleTabs defaultActiveKey='wechat' onChange={(val)=>{this.setState({paymethod:val})}}>
 	            <CapsuleTabs.Tab  title='微信付' key='wechat' />
 	            <CapsuleTabs.Tab  title='支付宝' key='alipay' />
-	            <CapsuleTabs.Tab  title='工商卡' key='ICBC' />
 			    <CapsuleTabs.Tab  title='农行卡' key='ABC' />
 			    <CapsuleTabs.Tab  title='招商卡' key='CMB' />
 			  </CapsuleTabs>

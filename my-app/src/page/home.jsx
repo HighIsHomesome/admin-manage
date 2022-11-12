@@ -45,20 +45,6 @@ export default class Home extends React.Component < {
 			color: 'danger',
 		},
 	]
-	getPayName=(pay)=>{
-		for (const payItem of payConfig) {
-		  if (payItem.payEn === pay) {
-		    return payItem.payCn;
-		  }
-		}
-	}
-	getPayColor=(pay)=>{
-		for (const payItem of payConfig) {
-		  if (payItem.payEn === pay) {
-		    return payItem.color;
-		  }
-		}
-	}
 	changeCategory=()=>{
 		this.setState({
 			visiable:true
@@ -181,20 +167,25 @@ export default class Home extends React.Component < {
 								  this.getAccountsByCondition()
 							  }}/>
 							</Form.Item>
-							<Form.Item label='合计消费'>
+							<Form.Item label='合计'>
 								<Input placeholder='请输入内容' value={this.state.sum} readOnly />
 							</Form.Item>
 							
 					        <Form.Header />
 					        <Form.Item className="accountsFormItem">
-					        	{accounts.length>0?(<AutoFunction className='list_accounts' accounts={accounts} ></AutoFunction>):(
-									<div>
-										<Empty className='emptyData' description='暂无数据' />
-										<Link style={{ textDecoration:'none'}} to="/login">
-											<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
-										</Link>
 
-									</div>)}
+									{accounts.length>0?(<WithList  className='list_accounts' getAccountsByCondition={this.getAccountsByCondition} accounts={accounts} ></WithList>):(
+										<div>
+											<Empty className='emptyData' description='暂无数据' />
+											{localStorage.getItem('token')===!''?
+												(<Link style={{ textDecoration:'none'}} to="/login" >
+												<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
+												</Link>):''
+											}
+
+
+										</div>)}
+
 					        </Form.Item>
 					</Form>
 					<Cascader
