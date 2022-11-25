@@ -42,7 +42,7 @@ const Bottom: FC = () => {
 		},
 		{
 			key: '/message',
-			title: '消息',
+			title: '统计分析',
 			icon: <MessageOutline />,
 		},
 		{

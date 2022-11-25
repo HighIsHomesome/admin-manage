@@ -14,3 +14,11 @@ export const AddAccount = (params)=>request.post('/account/addAccount',params)
 export const delAccount = (params)=>request.post('/account/delete/item',params)
 // 修改记账条目
 export const updateAccount = (params)=>request.post('/account/modify/item',params)
+// 获取验证码
+export const getCode = (params)=>request.get('/user/getCode?phone='+params.phone)
+// 根据手机号登录
+export const LoginPhoneApi = (params)=>request.get('/user/phoneLog?phone='+params.phone+'&code='+params.code)
+// 共享账号
+export const shareAccount = (params)=>request.get('/user/shareAccount?phone='+params.phone)
+// 解除共享
+export const removeShareAccount = (params)=>request.get('/user/removeShareAccount?phone='+params.phone)

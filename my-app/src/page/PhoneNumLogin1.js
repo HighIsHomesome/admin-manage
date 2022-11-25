@@ -1,20 +1,18 @@
-import React, { useState } from 'react'
-import Logo from './img/logo.png'
-import Title from './img/title.png'
+import React, {useState} from 'react'
 import './less/Login.less'
 import { LoginApi } from './request/api';
-import {Background} from '../component/Background'
+import {getCode} from "./request/api";
 import {
 	Form,
 	Input,
 	Button,
 	Dialog,
-	NoticeBar,
-	Toast,
+	Toast, NoticeBar,
 } from 'antd-mobile'
 import {Link} from "react-router-dom";
 
 export default () => {
+
 	const [form] = Form.useForm()
 	const onSubmit = () => {
 		const values = form.getFieldsValue()
@@ -25,16 +23,14 @@ export default () => {
 
 	return (
 		<>
-			{/*<div className="background">*/}
-			{/*	<Background></Background>*/}
-			{/*</div>*/}
-
 			<WarningOnlyDemo />
 		</>
 	)
 }
 
 const WarningOnlyDemo = () => {
+	const [phone,setPhone]=useState("")
+	const [block,setBlock]=useState(false)
 	const { Link, useNavigate } = require('react-router-dom')
 	const navigate = useNavigate()
 	const onFinish = (values: any) => {
@@ -47,9 +43,6 @@ const WarningOnlyDemo = () => {
 				console.log(res.obj.user)
 				localStorage.setItem('token',res.obj.tol_token)
 				localStorage.setItem('userid',res.obj.user.id)
-				localStorage.setItem('username',res.obj.user.username)
-				localStorage.setItem('profile_photo',res.obj.user.profile_photo)
-
 				Toast.show({
 					content: '登录成功,即将进入主页!',
 					afterClose: () => {
@@ -69,7 +62,7 @@ const WarningOnlyDemo = () => {
 	return (
 
 		<div>
-
+			<NoticeBar content='手机号如果未注册则登录操作之后自动注册' color='info' />
 			<Form className="loginFormContainer"
 				onFinish={onFinish}
 				footer={
@@ -86,25 +79,38 @@ const WarningOnlyDemo = () => {
 						<span id="fourth">录</span>
 					</div>
 				</Form.Header>
-				<Form.Item
-					name='username'
-					label='用户名'
-					rules={[{ required: true }, { type: 'string', min: 6 },]}
-				>
-					<Input placeholder='请输入用户名' />
+				<Form.Item label='手机号' name='phoneNum'  rules={[{ required: true },{pattern:/^1[3-9]\d{9}$/,message:'手机号格式不正确'}]}>
+					<Input placeholder='请输入手机号' onChange={(val)=>{
+						setPhone(val)
+						console.log(phone)
+					}}/>
 				</Form.Item>
-				<Form.Item
-					name='password'
-					label='密码'
-					rules={[
-						{ required: true },
-						{ type: 'string', min: 1 },
-					]}
-				>
-					<Input placeholder='请输入密码' />
+				<Form.Item label='短信验证码' extra={<a aria-disabled={block} onClick={()=>{
+					console.log(phone)
+					if(block){
+						return false
+					}
+					getCode({
+						'phone':phone
+					}).then(resp=>{
+						if(resp){
+							if(resp.code === 200){
+								setBlock(true)
+								Toast.show({
+									content: "验证码已发送成功,请注意查收!",
+								})
+							}else{
+								Toast.show({
+									content: resp.msg,
+								})
+							}
+						}
+					})
+				}}>发送验证码</a>} name='code' rules={[{ required: true },{pattern:/^[1-9]{4}$/,message:'验证码格式不正确'}]}>
+					<Input placeholder='请输入验证码' />
 				</Form.Item>
 				<Form.Item>
-					<Link  style={{ textDecoration:'none'}} to="/phoneNumLogin">手机号码登录</Link>
+					<Link  style={{ textDecoration:'none'}} to="/login">账号密码登录</Link>
 				</Form.Item>
 				<Form.Item>
 					<Link  style={{ textDecoration:'none'}} to="/register">没有账号？立即注册！</Link>

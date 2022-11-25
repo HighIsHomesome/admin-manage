@@ -21,7 +21,8 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authToken = request.getHeader("authorization");
         if(request.getRequestURL().indexOf("/login")>0
-                || request.getRequestURL().indexOf("/register")>0
+                || request.getRequestURL().indexOf("/register")>0|| request.getRequestURL().indexOf("/getCode")>0
+                || request.getRequestURL().indexOf("/phoneLog")>0
         ) {
             filterChain.doFilter(request, response);
         }else if(authToken == null){

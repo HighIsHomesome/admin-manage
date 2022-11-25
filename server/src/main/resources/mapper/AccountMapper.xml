@@ -31,7 +31,7 @@
     insert into account(type,category,subCategory,description,value,date,userid,pay) values(#{type},#{category},#{subCategory},#{description},#{value},#{date},#{userid},#{pay})
     </insert>
     <update id="modifyItemById">
-        update account set value = #{value},date = #{date} ,description = #{description},category=#{category},subCategory=#{subCategory}
+        update account set value = #{value},date = #{date},pay=#{pay} ,description = #{description},category=#{category},subCategory=#{subCategory}
         where id = #{id}
     </update>
     <select id="getAccountsSumValueByDate" resultType="com.accounting.server.pojo.dto.SumValueByDate">
@@ -61,12 +61,12 @@
     <select id="getAccountsByCondition" resultType="com.accounting.server.pojo.Account">
         select * from account where userid in
         (select share_account from share where share_account =
-        (select extension_filed1 from t_user where username=#{username})
-        or shared_account = (select extension_filed1 from t_user where username=#{username})
+        (select id from t_user where username=#{username})
+        or shared_account = (select id from t_user where username=#{username})
         UNION
         select shared_account from share where share_account =
-        (select extension_filed1 from t_user where username=#{username})
-        or shared_account = (select extension_filed1 from t_user where username=#{username})
+        (select id from t_user where username=#{username})
+        or shared_account = (select id from t_user where username=#{username})
         )
         and date >= STR_TO_DATE(#{accountVO.startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d')
@@ -80,5 +80,8 @@
             and subCategory = #{accountVO.subCategory}
         </if>
         order by STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d') desc
+    </select>
+    <select id="getAccountsByUserName" resultType="com.accounting.server.pojo.Account">
+        select * from account where userid = #{id}
     </select>
 </mapper>

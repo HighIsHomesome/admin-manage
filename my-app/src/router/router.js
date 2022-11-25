@@ -4,6 +4,7 @@ import Register from '../page/register';
 import Meassage from '../page/message';
 import Todo from '../page/todo';
 import Home from '../page/home'
+import PhoneNumLogin from '../page/PhoneNumLogin'
 import Me from '../page/me'
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 
@@ -18,6 +19,7 @@ const BaseRoute = () =>(
             </Route>
             <Route path='/login' element={<Login/>}></Route>
             <Route path='/register' element={<Register/>}></Route>
+            <Route path='/phoneNumLogin' element={<PhoneNumLogin/>}></Route>
         </Routes>
     </Router>
 )

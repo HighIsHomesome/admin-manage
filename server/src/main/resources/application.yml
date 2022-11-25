@@ -6,6 +6,28 @@ server:
 APPID: wx6a012f422b0fb1db
 APP_SECRET: 09954c0750fbe913d553effab8b1ffbb
 
+redis:
+  #超时时间
+  timeout: 10000ms
+  #服务器地址，虚拟机的，或者远程服务器
+  host: localhost
+  #服务器端口
+  port: 6379
+  #数据库
+  database: 0
+  #密码，没有配密码可以不配置
+  # password: lhs
+  lettuce:
+    pool:
+      #最大连接数，默认8
+      max-active: 1024
+      #最大连接阻塞等待时间，默认-1
+      max-wait: 10000ms
+      #最大空闲连接
+      max-idle: 200
+      #最小空闲连接
+      min-idle: 5
+
 spring:
     # 数据源配置
   datasource:
@@ -39,3 +61,9 @@ mybatis-plus:
       id-type: auto #id生成规则：数据库id自增
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #短信
+  shortMessage:
+    appCode: 99a68cab482c4e90ba7940164363e3c1
+    host: https://dfsns.market.alicloudapi.com
+    path: /data/send_sms
+    method: POST

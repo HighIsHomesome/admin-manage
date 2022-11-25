@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface ShareMapper extends BaseMapper<Share> {
 
     Share getShares(String userId);
+
+    int removeShareAccount(String shareId, String sharedId);
 }

@@ -24,7 +24,8 @@ export default class Home extends React.Component < {
 		categories:'',
 		dateRange:'',
 		keyword:'',
-		sum:0
+		sum:0,
+		logBtn:false
 	};
 	leftActions: Action[] = [
 		{
@@ -91,6 +92,13 @@ export default class Home extends React.Component < {
 					this.getAccountsSumValue()
 				})
 				console.log('qwe',this.state.accounts)
+			}else if(res.code === 401){
+				this.setState({
+					logBtn:true
+				})
+				Toast.show({
+					content: res.msg,
+				})
 			}else{
 				Toast.show({
 					content: res.msg,
@@ -129,7 +137,15 @@ export default class Home extends React.Component < {
 				this.setState({
 					accounts: res.obj
 				},()=>{this.getAccountsSumValue()})
-			}else{
+			}else if(res.code === 401){
+				this.setState({
+					logBtn:true
+				})
+				Toast.show({
+					content: res.msg,
+				})
+			}
+			else{
 				Toast.show({
 					content: res.msg,
 				})
@@ -177,9 +193,9 @@ export default class Home extends React.Component < {
 									{accounts.length>0?(<WithList  className='list_accounts' getAccountsByCondition={this.getAccountsByCondition} accounts={accounts} ></WithList>):(
 										<div>
 											<Empty className='emptyData' description='暂无数据' />
-											{localStorage.getItem('token')===!''?
+											{this.state.logBtn === true?
 												(<Link style={{ textDecoration:'none'}} to="/login" >
-												<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
+													<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
 												</Link>):''
 											}
 

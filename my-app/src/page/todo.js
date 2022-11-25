@@ -61,36 +61,37 @@ export default class Todo extends React.Component{
 	    <>
 		  <NavBar onBack={this.back}>新增账单</NavBar>
 		  <div className="form">
-		  <Form  mode='card'>
-	        <Form.Header>新增账单信息</Form.Header>
-	        <Form.Item label='消费金额'>
-	          <Input placeholder='请输入金额'   onFocus={this.openKeyboard} value={this.state.accountValue}/>
-	        </Form.Item>
-	        <Form.Item label='账单类别'>
-	          <Input placeholder='请选择账单类别'  onFocus={()=>{this.setState({categoryVisiable:true,numKeyboardVisiable:false})}} value={this.state.categories}/>
-	        </Form.Item>
-	        <Form.Item label='账单日期'>
-	          <Input placeholder='请选择账单日期'  onFocus={()=>{this.setState({dateVisiable:true,numKeyboardVisiable:false})}} value={this.state.dateRange}/>
-	        </Form.Item>
-	        <Form.Item label='账单描述'>
-	          <Input placeholder='请输入账单详细描述' onChange={(val)=>{this.setState({description:val})}} value={this.description}/>
-	        </Form.Item>
-			<Form.Header>付款方式</Form.Header>
-	        <Form.Item >
-	          <CapsuleTabs defaultActiveKey='wechat' onChange={(val)=>{this.setState({paymethod:val})}}>
-	            <CapsuleTabs.Tab  title='微信付' key='wechat' />
-	            <CapsuleTabs.Tab  title='支付宝' key='alipay' />
-			    <CapsuleTabs.Tab  title='农行卡' key='ABC' />
-			    <CapsuleTabs.Tab  title='招商卡' key='CMB' />
-			  </CapsuleTabs>
-			</Form.Item>
-			<Form.Header/>
-			<Form.Item >
-				<Button block color='primary' size='large' onClick={this.addAccount}>
-					新增记账
-				</Button>
-			</Form.Item>
+			  <Form className="loginFormContainer">
+				<Form.Header>新增账单信息</Form.Header>
+				<Form.Item label='消费金额'  rules={[{ required: true }, { type: 'string', min: 1 },]}>
+				  <Input placeholder='请输入金额'   onFocus={this.openKeyboard} value={this.state.accountValue}/>
+				</Form.Item>
+				<Form.Item label='账单类别'  rules={[{ required: true }, { type: 'string', min: 1 },]}>
+				  <Input placeholder='请选择账单类别'  onFocus={()=>{this.setState({categoryVisiable:true,numKeyboardVisiable:false})}} value={this.state.categories}/>
+				</Form.Item>
+				<Form.Item label='账单日期' rules={[{ required: true }, { type: 'string', min: 1 },]}>
+				  <Input placeholder='请选择账单日期'  onFocus={()=>{this.setState({dateVisiable:true,numKeyboardVisiable:false})}} value={this.state.dateRange}/>
+				</Form.Item>
+				<Form.Item label='账单描述'>
+				  <Input placeholder='请输入账单详细描述' onChange={(val)=>{this.setState({description:val})}} value={this.description}/>
+				</Form.Item>
+				<Form.Header>付款方式</Form.Header>
+				<Form.Item >
+				  <CapsuleTabs defaultActiveKey='wechat' onChange={(val)=>{this.setState({paymethod:val})}}>
+					<CapsuleTabs.Tab  title='微信付' key='wechat' />
+					<CapsuleTabs.Tab  title='支付宝' key='alipay' />
+					<CapsuleTabs.Tab  title='农行卡' key='ABC' />
+					<CapsuleTabs.Tab  title='招商卡' key='CMB' />
+				  </CapsuleTabs>
+				</Form.Item>
+
+			<Form.Header className='last-child'/>
+
+				  <Button  block color='primary' size='large' onClick={this.addAccount}>
+					  新增记账
+				  </Button>
 	      </Form>
+
 		  </div>
 	      
 		   <NumberKeyboard

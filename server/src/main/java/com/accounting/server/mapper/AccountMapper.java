@@ -24,11 +24,13 @@ public interface AccountMapper extends BaseMapper<Account> {
 
     List<Account> getAccountsByUserIdAndSharedId(String userId, String shareAccount);
 
-    boolean modifyItemById(Integer id,float value,String date,String description,String category, String subCategory);
+    boolean modifyItemById(Integer id,float value,String date,String description,String category, String subCategory,String pay);
 
     List<SumValueByDate> getAccountsSumValueByDate(@Param("userId") String userId, @Param("shareId") String shareId,@Param("startDate") String startDate,@Param("endDate") String endDate);
 
     List<SumValueByDate> getAccountsSumValueByCategory(@Param("userId") String userId, @Param("shareId") String shareId,@Param("startDate") String startDate,@Param("endDate") String endDate);
 
     List<Account> getAccountsByCondition(AccountVO  accountVO,String username);
+
+    List<Account> getAccountsByUserName(Integer id);
 }

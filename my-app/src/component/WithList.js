@@ -13,7 +13,7 @@ import {
 	Button,
 	NumberKeyboard, Cascader, Calendar
 } from 'antd-mobile'
-import { Action, SwipeActionRef } from 'antd-mobile/es/components/swipe-action'
+import "../page/less/withlist.less"
 import {payConfig} from "../customConfig/payConfig";
 import {delAccount,updateAccount} from "../page/request/api"
 import {Category} from  '../customConfig/catConfig'
@@ -23,7 +23,7 @@ import {Category} from  '../customConfig/catConfig'
 const WithList: FC = (props) => {
 	const [visiable,setVisiable] = useState(false)
 	const [numKeyboardVisiable,setNumKeyboardVisiable] = useState(false)
-	const [accountValue,setAccountValue] = useState(0)
+	const [accountValue,setAccountValue] = useState("")
 	const [id,setId] = useState(0)
 	const [categoryVisiable,setCategoryVisiable] = useState(false)
 	const [categories,setCategories] = useState("")
@@ -64,7 +64,7 @@ const WithList: FC = (props) => {
 								setPaymethod(item.pay)
 								setDescription(item.description)
 								setDate(item.date)
-								setAccountValue(item.value)
+								setAccountValue(item.value.toString())
 								setCategories(item.category+'-'+item.subCategory)
 								setId(item.id)
 							}
@@ -87,7 +87,6 @@ const WithList: FC = (props) => {
 											if(res.code===200){
 												setTimeout(() => {
 													Toast.show({
-														icon: 'success',
 														content: '删除成功',
 														position: 'middle',
 													},
@@ -95,7 +94,6 @@ const WithList: FC = (props) => {
 													) }, 500);
 											}else{
 												Toast.show({
-														icon: 'fail',
 														content: '删除失败,请刷新后再进行删除',
 														position: 'middle',
 													},
@@ -135,6 +133,9 @@ const WithList: FC = (props) => {
 				visible={visiable}
 				onClose={()=>{
 					setVisiable(false)
+					setNumKeyboardVisiable(false)
+					setDateVisiable(false)
+					setCategoryVisiable(false)
 				}}
 				onMaskClick={() => {
 					setVisiable(false)
@@ -193,9 +194,7 @@ const WithList: FC = (props) => {
 											setVisiable(false)
 										}else{
 											Toast.show({
-													icon: 'fail',
-													content: '修改失败,请刷新后再进行修改',
-													position: 'middle',
+													content: resp.msg
 												},
 
 											)
@@ -210,6 +209,7 @@ const WithList: FC = (props) => {
 							visible={numKeyboardVisiable}
 							onClose={()=>{setNumKeyboardVisiable(true)}}
 							onDelete={()=>{
+								console.log(accountValue.substring(0,accountValue.length-1))
 								setAccountValue(accountValue.substring(0,accountValue.length-1))
 							}}
 							onInput={(val)=>{

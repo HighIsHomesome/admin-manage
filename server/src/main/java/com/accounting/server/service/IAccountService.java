@@ -29,5 +29,5 @@ public interface IAccountService extends IService<Account> {
 
     List<SumValueByDate> getAccountsSumValueByCategory(String userId, String shareId, String startDate, String endDate);
 
-    List<Account> getAccountsByCondition(AccountVO accountVO,String username);
+    List<Account> getAccountsByCondition(AccountVO accountVO, String username, Integer idByToken);
 }

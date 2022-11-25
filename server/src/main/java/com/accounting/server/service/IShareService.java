@@ -14,4 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IShareService extends IService<Share> {
 
     Share getShares(String userId);
+
+    boolean removeShareAccount(String shareId, String sharedId);
 }

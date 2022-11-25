@@ -48,7 +48,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     public boolean modifyItemById(Account account) {
 
         return accountMapper.modifyItemById(account.getId(),account.getValue(),account.getDate(),account.getdescription(),
-                account.getCategory(),account.getSubCategory());
+                account.getCategory(),account.getSubCategory(),account.getPay());
     }
 
     @Override
@@ -62,8 +62,12 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public List<Account> getAccountsByCondition(AccountVO accountVO, String username) {
-        return accountMapper.getAccountsByCondition(accountVO,username);
+    public List<Account> getAccountsByCondition(AccountVO accountVO, String username, Integer idByToken) {
+        List<Account> listAccount = accountMapper.getAccountsByCondition(accountVO,username);
+        if(listAccount.size() == 0){
+            listAccount = accountMapper.getAccountsByUserName(idByToken);
+        }
+        return listAccount;
     }
 
 }

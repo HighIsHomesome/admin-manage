@@ -48,9 +48,13 @@ public class JwtUtil {
      * @return
      */
     public static boolean validateToken(String token){
-
-        Claims claims = Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(token)
-                .getBody();
+        Claims claims = null;
+        try {
+            claims = Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(token)
+                    .getBody();
+        }catch (Exception e){
+            return false;
+        }
 
 
         // 验证token是否存在
@@ -73,5 +77,13 @@ public class JwtUtil {
      */
     public static Object getUserNameByToken(String token){
         return Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(token).getBody().get("username");
+    }
+    /**
+     * 根据toke获取用户名
+     * @param token
+     * @return
+     */
+    public static Object getUserIdByToken(String token){
+        return Jwts.parser().setSigningKey(APPSECRET).parseClaimsJws(token).getBody().get("id");
     }
 }

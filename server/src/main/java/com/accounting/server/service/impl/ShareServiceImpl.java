@@ -25,4 +25,10 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
     public Share getShares(String userId) {
         return shareMapper.getShares(userId);
     }
+
+    @Override
+    public boolean removeShareAccount(String shareId, String sharedId) {
+        int count = shareMapper.removeShareAccount(shareId,sharedId);
+        return count > 0;
+    }
 }

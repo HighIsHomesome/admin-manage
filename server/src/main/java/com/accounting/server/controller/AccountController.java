@@ -50,6 +50,17 @@ public class AccountController {
 
     @PostMapping("/modify/item")
     public CommonResponseObj modifyItem(@RequestBody Account account){
+
+        if(account.getValue()==null){
+            return new CommonResponseObj(500,"金额不能为空!",null);
+        }
+        if(account.getCategory()==null || account.getCategory().equals("")){
+            return new CommonResponseObj(500,"类别不能为空!",null);
+        }
+        if(account.getDate()==null || account.getDate().equals("")){
+            return new CommonResponseObj(500,"日期不能为空!",null);
+        }
+
         System.out.println(account);
         if(account != null){
             boolean result = iAccountService.modifyItemById(account);
@@ -66,9 +77,10 @@ public class AccountController {
         String authToken = request.getHeader("authorization");
         // 根据token获取用户名
         String userNameByToken = (String) JwtUtil.getUserNameByToken(authToken);
+        Integer idByToken = (Integer) JwtUtil.getUserIdByToken(authToken);
         // 根据用户名获取accounts
         List<Account> accounts = null;
-        accounts = iAccountService.getAccountsByCondition(accountVO,userNameByToken);
+        accounts = iAccountService.getAccountsByCondition(accountVO,userNameByToken,idByToken);
         return new CommonResponseObj(200,"查询成功!",accounts);
     }
 
@@ -92,6 +104,16 @@ public class AccountController {
     }
     @PostMapping("/addAccount")
     public CommonResponseObj addAcount(@RequestBody Account account){
+        if(account.getValue()==null){
+            return new CommonResponseObj(500,"金额不能为空!",null);
+        }
+        if(account.getCategory()==null || account.getCategory().equals("")){
+            return new CommonResponseObj(500,"类别不能为空!",null);
+        }
+        if(account.getDate()==null || account.getDate().equals("")){
+            return new CommonResponseObj(500,"日期不能为空!",null);
+        }
+
         System.out.println(account);
         if(iAccountService.addAccount(account)){
             return new CommonResponseObj(200,"新增成功!",null);
