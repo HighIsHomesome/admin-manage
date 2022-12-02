@@ -52,8 +52,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public List<SumValueByDate> getAccountsSumValueByDate(String userId, String shareId, String startDate, String endDate) {
-        return accountMapper.getAccountsSumValueByDate(userId,shareId,startDate,endDate);
+    public List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate) {
+        return accountMapper.getAccountsSumValueByDate(userName,startDate,endDate);
     }
 
     @Override

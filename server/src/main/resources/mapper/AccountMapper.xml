@@ -35,28 +35,37 @@
         where id = #{id}
     </update>
     <select id="getAccountsSumValueByDate" resultType="com.accounting.server.pojo.dto.SumValueByDate">
-        select date, sum(value) as value, category from (SELECT
-        STR_TO_DATE(date, '%Y/%m/%d') as date,value,userid,category from account ) as a
-        where date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
+        select date ,sum(value)
+        from account where userid in
+        (select share_account from share where share_account =
+        (select id from t_user where username=#{userName})
+        or shared_account = (select id from t_user where username=#{userName})
+        UNION
+        select shared_account from share where share_account =
+        (select id from t_user where username=#{userName})
+        or shared_account = (select id from t_user where username=#{userName})
+        )
+        and date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
-        and (userid = #{userId}
-        <if test="userId != shareId and shareId != null">
-         or userid = #{shareId}
-        </if>
-        ) group by date , category
+        GROUP BY date
         order by date
     </select>
     <select id="getAccountsSumValueByCategory" resultType="com.accounting.server.pojo.dto.SumValueByDate">
-        select date, sum(value) as value, category from (SELECT
-        STR_TO_DATE(date, '%Y/%m/%d') as date,value,userid,category from account ) as a
-        where date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
+        select category,sum(value)
+        from account where userid in
+        (select share_account from share where share_account =
+        (select id from t_user where username=#{userName})
+        or shared_account = (select id from t_user where username=#{userName})
+        UNION
+        select shared_account from share where share_account =
+        (select id from t_user where username=#{userName})
+        or shared_account = (select id from t_user where username=#{userName})
+        )
+        and date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
-        and (userid = #{userId}
-        <if test="userId != shareId and shareId != null">
-            or userid = #{shareId}
-        </if>
-        ) group by date , category
-        order by category
+        and category = #{category}
+        GROUP BY category
+        order by date
     </select>
     <select id="getAccountsByCondition" resultType="com.accounting.server.pojo.Account">
         select * from account where userid in

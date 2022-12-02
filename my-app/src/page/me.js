@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Grid,Avatar,Modal,Form,Input,Toast} from 'antd-mobile'
+import {Grid, Avatar, Modal, Form, Input, Toast, NavBar} from 'antd-mobile'
 import './less/me.less'
 import {shareAccount,removeShareAccount} from "./request/api";
 
@@ -7,12 +7,21 @@ import {shareAccount,removeShareAccount} from "./request/api";
 export default function Index(){
     let shared = ''
     let removeShared=''
-    const [share,setShare] = useState("")
-    const [removeShare,setRemoveShare] = useState("")
+    // const [share,setShare] = useState("")
+    // const [removeShare,setRemoveShare] = useState("")
     const {useNavigate } = require('react-router-dom')
     const navigate = useNavigate()
     return(
         <div>
+            <NavBar onBack={()=>{
+                Toast.show({
+                    content: '即将跳转上一个页面',
+                    duration: 1000,
+                    afterClose:()=>{
+                        window.history.back(-1);
+                    }
+                })
+            }}>个人中心</NavBar>
             <div className="main-header">
                 <Grid columns={5} gap={5}>
                     <Grid.Item>
@@ -23,7 +32,14 @@ export default function Index(){
                     <Grid.Item span={4}>
                         <div className="grid-demo-item-block">
                            <div>
-                               {localStorage.getItem('username')}
+                               {localStorage.getItem('username')===null?<a onClick={()=>{
+                                   Toast.show({
+                                       content: "即将跳转登录页面!",
+                                       position: 'middle',
+                                   })
+                                   setTimeout(() => { navigate('/login') }, 1500);
+                               }
+                               }>暂未登录,请前往登录！</a>:localStorage.getItem('username')}
                            </div>
                             <div>
                                 <span>昵称:</span>
@@ -45,6 +61,13 @@ export default function Index(){
                    </Grid.Item>
                    <Grid.Item span={3}>
                        <div className="grid-demo-item-block-main" onClick={()=>{
+                           if(localStorage.getItem('username')===null){
+                               Toast.show({
+                                   content: "请登录后再试!",
+                                   position: 'middle',
+                               })
+                               return false
+                           }
                            Modal.confirm({
                                title: '共享账号',
                                content:
@@ -77,6 +100,13 @@ export default function Index(){
                    </Grid.Item>
                    <Grid.Item span={3}>
                        <div className="grid-demo-item-block-main" onClick={()=>{
+                           if(localStorage.getItem('username')===null){
+                               Toast.show({
+                                   content: "请登录后再试!",
+                                   position: 'middle',
+                               })
+                               return false
+                           }
                            Modal.confirm({
                                title: '解除共享',
                                content:
@@ -131,6 +161,13 @@ export default function Index(){
                    </Grid.Item>
                    <Grid.Item span={3}>
                        <div className="grid-demo-item-block-main" onClick={()=>{
+                           if(localStorage.getItem('username')===null){
+                               Toast.show({
+                                   content: "请登录后再试!",
+                                   position: 'middle',
+                               })
+                               return false
+                           }
                            localStorage.clear()
                            Toast.show({
                                content: "退出成功,即将跳转登录页面!",

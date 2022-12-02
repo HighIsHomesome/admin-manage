@@ -101,7 +101,7 @@ const WarningOnlyDemo = () => {
 						{ type: 'string', min: 1 },
 					]}
 				>
-					<Input placeholder='请输入密码' />
+					<Input type='password' placeholder='请输入密码' />
 				</Form.Item>
 				<Form.Item>
 					<Link  style={{ textDecoration:'none'}} to="/phoneNumLogin">手机号码登录</Link>

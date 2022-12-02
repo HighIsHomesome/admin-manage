@@ -3,11 +3,14 @@ package com.accounting.server.controller;
 
 import java.util.List;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
 import com.accounting.server.pojo.Account;
 import com.accounting.server.pojo.CommonResponseObj;
 import com.accounting.server.pojo.Share;
 import com.accounting.server.pojo.dto.SumValueByDate;
 import com.accounting.server.pojo.vo.AccountVO;
+import com.accounting.server.pojo.vo.PieVo;
 import com.accounting.server.service.IAccountService;
 
 import com.accounting.server.service.IShareService;
@@ -84,6 +87,26 @@ public class AccountController {
         return new CommonResponseObj(200,"查询成功!",accounts);
     }
 
+//    @PostMapping("/getAccountsByConditionForColumn")
+//    public CommonResponseObj getAccountsByConditionForColumn(@RequestBody AccountVO accountVO, HttpServletRequest request){
+//        // 获取token
+//        String authToken = request.getHeader("authorization");
+//        // 根据token获取用户名
+//        String userNameByToken = (String) JwtUtil.getUserNameByToken(authToken);
+//        Integer idByToken = (Integer) JwtUtil.getUserIdByToken(authToken);
+//        // 根据用户名获取accounts
+//        List<Account> accounts = null;
+//        accounts = iAccountService.getAccountsSumValueByDate(accountVO,userNameByToken,idByToken);
+//        List target = null;
+//        JSONObject object = new JSONObject();
+//        for(int i = 0; i<accounts.size();i++){
+//            object.put("时间", accounts.get(i).getDate());
+//            object.put("消费",accounts.get(i).getValue());
+//            target.add(object);
+//        }
+//        return new CommonResponseObj(200,"查询成功!",target);
+//    }
+
     @GetMapping("/getAccounts")
     public CommonResponseObj getAccounts(String userId){
         Share share = shareService.getShares(userId);
@@ -121,23 +144,16 @@ public class AccountController {
         return new CommonResponseObj(500,"新增失败!",null);
     }
 
-    @GetMapping("/getAccountsSumValueByDate")
-    public List<SumValueByDate> getAccountsSumValueByDate(String userId, String startDate, String endDate){
+    @PostMapping("/getAccountsSumValueGroupByDate")
+    public List<SumValueByDate> getAccountsSumValueGroupByDate(@RequestBody PieVo pieVo,HttpServletRequest request){
         List<SumValueByDate> sumValueByDateList = null;
-        Share share = shareService.getShares(userId);
-        if (share == null){
-            sumValueByDateList = iAccountService.getAccountsSumValueByDate(userId,null,startDate,endDate);
-        }else{
-            if(share.getShareAccount().equals(userId)){
-                sumValueByDateList = iAccountService.getAccountsSumValueByDate(userId,share.getSharedAccount(),startDate,endDate);
-            }else if(share.getSharedAccount().equals(userId)){
-                sumValueByDateList = iAccountService.getAccountsSumValueByDate(userId,share.getShareAccount(),startDate,endDate);
-            }
+        if(pieVo!=null){
+            // 获取token
+            String authToken = request.getHeader("authorization");
+            // 根据token获取用户名
+            String userNameByToken = (String) JwtUtil.getUserNameByToken(authToken);
+            sumValueByDateList = iAccountService.getAccountsSumValueByDate(userNameByToken, pieVo.getStartDate(), pieVo.getEndDate());
         }
-//        if (sumValueByDateList == null) {
-//            SumValueByDate sumValueByDate = new SumValueByDate("error",500);
-//            sumValueByDateList.add(sumValueByDate);
-//        }
         return sumValueByDateList;
     }
 
@@ -160,4 +176,6 @@ public class AccountController {
 //        }
         return sumValueByDateList;
     }
+
+
 }

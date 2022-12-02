@@ -22,3 +22,7 @@ export const LoginPhoneApi = (params)=>request.get('/user/phoneLog?phone='+param
 export const shareAccount = (params)=>request.get('/user/shareAccount?phone='+params.phone)
 // 解除共享
 export const removeShareAccount = (params)=>request.get('/user/removeShareAccount?phone='+params.phone)
+// 根据date区间获取记账条目
+export const getAccountsSumValueGroupByDate = (params)=>request.post('/account/getAccountsSumValueGroupByDate',params)
+// 根据类目获取记账条目
+export const getAccountsByCategory = (params)=>request.post('/account/getAccountsByCategory',params)

@@ -25,7 +25,7 @@ public interface IAccountService extends IService<Account> {
 
     boolean modifyItemById(Account account);
 
-    List<SumValueByDate> getAccountsSumValueByDate(String userId, String shareId, String startDate, String endDate);
+    List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate);
 
     List<SumValueByDate> getAccountsSumValueByCategory(String userId, String shareId, String startDate, String endDate);
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SumValueByDate {
-    private String date;
+public class SumValueByCategory {
+    private String category;
     private double value;
 }
