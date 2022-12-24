@@ -3,6 +3,7 @@ package com.accounting.server.mapper;
 import java.util.List;
 
 import com.accounting.server.pojo.Account;
+import com.accounting.server.pojo.dto.SumValueByCategory;
 import com.accounting.server.pojo.dto.SumValueByDate;
 import com.accounting.server.pojo.vo.AccountVO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -26,9 +27,9 @@ public interface AccountMapper extends BaseMapper<Account> {
 
     boolean modifyItemById(Integer id,float value,String date,String description,String category, String subCategory,String pay);
 
-    List<SumValueByDate> getAccountsSumValueByDate(@Param("userName") String userName,@Param("startDate") String startDate,@Param("endDate") String endDate);
+    List<SumValueByDate> getAccountsSumValueByDate(@Param("userName") String userName,@Param("startDate") String startDate,@Param("endDate") String endDate,@Param("category") String category,@Param("subCategory") String subCategory);
 
-    List<SumValueByDate> getAccountsSumValueByCategory(@Param("userId") String userId, @Param("shareId") String shareId,@Param("startDate") String startDate,@Param("endDate") String endDate);
+    List<SumValueByCategory> getAccountsSumValueByCategory(@Param("userName") String userName, @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     List<Account> getAccountsByCondition(AccountVO  accountVO,String username);
 

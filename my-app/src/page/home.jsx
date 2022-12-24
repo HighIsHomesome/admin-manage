@@ -175,7 +175,7 @@ export default class Home extends React.Component < {
 					        <Form.Item label='日期'>
 					          <Input placeholder='请选择日期区间' onFocus={this.changeDateRange} value={this.state.dateRange}/>
 					        </Form.Item>
-							<Form.Item label='关键字'>
+							<Form.Item label='描述'>
 							  <Input placeholder='请输入关键字' onChange={(e)=>{
 								  this.setState({ keyword: e})
 							  }}

@@ -35,7 +35,7 @@
         where id = #{id}
     </update>
     <select id="getAccountsSumValueByDate" resultType="com.accounting.server.pojo.dto.SumValueByDate">
-        select date ,sum(value)
+        select date ,Round(sum(value),2) as cost
         from account where userid in
         (select share_account from share where share_account =
         (select id from t_user where username=#{userName})
@@ -47,11 +47,17 @@
         )
         and date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
+        <if test="category != null and category !=''">
+            and category = #{category}
+        </if>
+        <if test="subCategory != null and subCategory !=''">
+            and subCategory = #{subCategory}
+        </if>
         GROUP BY date
         order by date
     </select>
-    <select id="getAccountsSumValueByCategory" resultType="com.accounting.server.pojo.dto.SumValueByDate">
-        select category,sum(value)
+    <select id="getAccountsSumValueByCategory" resultType="com.accounting.server.pojo.dto.SumValueByCategory">
+        select category,Round(sum(value),2) as cost
         from account where userid in
         (select share_account from share where share_account =
         (select id from t_user where username=#{userName})
@@ -63,9 +69,7 @@
         )
         and date >= STR_TO_DATE(#{startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{endDate},'%Y/%m/%d')
-        and category = #{category}
         GROUP BY category
-        order by date
     </select>
     <select id="getAccountsByCondition" resultType="com.accounting.server.pojo.Account">
         select * from account where userid in

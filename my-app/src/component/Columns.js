@@ -7,8 +7,9 @@ export default function Columns(props){
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        console.log(props)
-        asyncFetch();
+        console.log("合计:",props)
+        setData(props.accountData)
+        console.log("data:",data)
     }, []);
 
     const asyncFetch = () => {
@@ -30,8 +31,8 @@ export default function Columns(props){
     };
     const config = {
         data,
-        xField: '时间',
-        yField: '消费',
+        xField: 'value',
+        yField: 'date',
         xAxis: {
             label: {
                 autoRotate: false,

@@ -3,6 +3,7 @@ package com.accounting.server.service;
 import java.util.List;
 
 import com.accounting.server.pojo.Account;
+import com.accounting.server.pojo.dto.SumValueByCategory;
 import com.accounting.server.pojo.dto.SumValueByDate;
 import com.accounting.server.pojo.vo.AccountVO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -25,9 +26,9 @@ public interface IAccountService extends IService<Account> {
 
     boolean modifyItemById(Account account);
 
-    List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate);
+    List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate,String category,String subCategory);
 
-    List<SumValueByDate> getAccountsSumValueByCategory(String userId, String shareId, String startDate, String endDate);
+    List<SumValueByCategory> getAccountsSumValueByCategory(String userName, String startDate, String endDate);
 
     List<Account> getAccountsByCondition(AccountVO accountVO, String username, Integer idByToken);
 }

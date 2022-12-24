@@ -11,4 +11,6 @@ public class PieVo {
     private String userId;
     private String startDate;
     private String endDate;
+    private String category;
+    private String subCategory;
 }

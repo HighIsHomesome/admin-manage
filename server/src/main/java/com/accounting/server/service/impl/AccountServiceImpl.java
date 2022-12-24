@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.accounting.server.mapper.AccountMapper;
 import com.accounting.server.pojo.Account;
+import com.accounting.server.pojo.dto.SumValueByCategory;
 import com.accounting.server.pojo.dto.SumValueByDate;
 import com.accounting.server.pojo.vo.AccountVO;
 import com.accounting.server.service.IAccountService;
@@ -52,21 +53,21 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate) {
-        return accountMapper.getAccountsSumValueByDate(userName,startDate,endDate);
+    public List<SumValueByDate> getAccountsSumValueByDate(String userName, String startDate, String endDate,String category,String subCategory) {
+        return accountMapper.getAccountsSumValueByDate(userName,startDate,endDate,category,subCategory);
     }
 
     @Override
-    public List<SumValueByDate> getAccountsSumValueByCategory(String userId, String shareId, String startDate, String endDate) {
-        return accountMapper.getAccountsSumValueByCategory(userId,shareId,startDate,endDate);
+    public List<SumValueByCategory> getAccountsSumValueByCategory(String userName, String startDate, String endDate) {
+        return accountMapper.getAccountsSumValueByCategory(userName,startDate,endDate);
     }
 
     @Override
     public List<Account> getAccountsByCondition(AccountVO accountVO, String username, Integer idByToken) {
         List<Account> listAccount = accountMapper.getAccountsByCondition(accountVO,username);
-        if(listAccount.size() == 0){
-            listAccount = accountMapper.getAccountsByUserName(idByToken);
-        }
+//        if(listAccount.size() == 0){
+//            listAccount = accountMapper.getAccountsByUserName(idByToken);
+//        }
         return listAccount;
     }
 

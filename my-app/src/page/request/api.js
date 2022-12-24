@@ -25,4 +25,4 @@ export const removeShareAccount = (params)=>request.get('/user/removeShareAccoun
 // 根据date区间获取记账条目
 export const getAccountsSumValueGroupByDate = (params)=>request.post('/account/getAccountsSumValueGroupByDate',params)
 // 根据类目获取记账条目
-export const getAccountsByCategory = (params)=>request.post('/account/getAccountsByCategory',params)
+export const getAccountsSumValueByCategory = (params)=>request.post('/account/getAccountsSumValueByCategory',params)

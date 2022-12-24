@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SumValueByCategory {
     private String category;
-    private double value;
+    private double cost;
 }

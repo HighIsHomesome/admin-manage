@@ -1,22 +1,28 @@
 package com.accounting.server.controller;
 
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
+
 import com.accounting.server.pojo.Account;
 import com.accounting.server.pojo.CommonResponseObj;
 import com.accounting.server.pojo.Share;
+
+import com.accounting.server.pojo.dto.SumValueByCategory;
 import com.accounting.server.pojo.dto.SumValueByDate;
 import com.accounting.server.pojo.vo.AccountVO;
 import com.accounting.server.pojo.vo.PieVo;
+import com.accounting.server.pojo.vo.SumValueByDateForView;
 import com.accounting.server.service.IAccountService;
 
 import com.accounting.server.service.IShareService;
 import com.accounting.server.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,36 +151,46 @@ public class AccountController {
     }
 
     @PostMapping("/getAccountsSumValueGroupByDate")
-    public List<SumValueByDate> getAccountsSumValueGroupByDate(@RequestBody PieVo pieVo,HttpServletRequest request){
+    public CommonResponseObj getAccountsSumValueGroupByDate(@RequestBody PieVo pieVo,HttpServletRequest request){
         List<SumValueByDate> sumValueByDateList = null;
+        List<SumValueByDateForView> sortSumValueByDateList = new ArrayList<>();
+
         if(pieVo!=null){
             // 获取token
             String authToken = request.getHeader("authorization");
             // 根据token获取用户名
             String userNameByToken = (String) JwtUtil.getUserNameByToken(authToken);
-            sumValueByDateList = iAccountService.getAccountsSumValueByDate(userNameByToken, pieVo.getStartDate(), pieVo.getEndDate());
+            sumValueByDateList = iAccountService.getAccountsSumValueByDate(userNameByToken, pieVo.getStartDate(), pieVo.getEndDate(),pieVo.getCategory(),pieVo.getSubCategory());
         }
-        return sumValueByDateList;
+        if(sumValueByDateList.size()==0){
+            return new CommonResponseObj(200,"期间无消费记录,请重新输入！",null);
+        }
+        // 将对象中的日期字符串转为日期
+        for (SumValueByDate p : sumValueByDateList) {
+            SumValueByDateForView sumValueByDateForView = new SumValueByDateForView();
+            sumValueByDateForView.setDate(new Date(p.getDate()));
+            sumValueByDateForView.setCost(p.getCost());
+            sortSumValueByDateList.add(sumValueByDateForView);
+        }
+        sortSumValueByDateList = sortSumValueByDateList.stream().sorted(Comparator.comparing(SumValueByDateForView::getDate)).collect(Collectors.toList());
+
+        return new CommonResponseObj(200,"期间消费记录已成功获取！",sortSumValueByDateList);
     }
 
-    @GetMapping("/getAccountsSumValueByCategory")
-    public List<SumValueByDate> getAccountsSumValueByCategory(String userId, String startDate, String endDate){
-        List<SumValueByDate> sumValueByDateList = null;
-        Share share = shareService.getShares(userId);
-        if (share == null){
-            sumValueByDateList = iAccountService.getAccountsSumValueByCategory(userId,null,startDate,endDate);
-        }else{
-            if(share.getShareAccount().equals(userId)){
-                sumValueByDateList = iAccountService.getAccountsSumValueByCategory(userId,share.getSharedAccount(),startDate,endDate);
-            }else if(share.getSharedAccount().equals(userId)){
-                sumValueByDateList = iAccountService.getAccountsSumValueByCategory(userId,share.getShareAccount(),startDate,endDate);
-            }
+    @PostMapping("/getAccountsSumValueByCategory")
+    public CommonResponseObj getAccountsSumValueByCategory(@RequestBody PieVo pieVo,HttpServletRequest request){
+        List<SumValueByCategory> sumValueByDateList = null;
+        if(pieVo!=null){
+            // 获取token
+            String authToken = request.getHeader("authorization");
+            // 根据token获取用户名
+            String userNameByToken = (String) JwtUtil.getUserNameByToken(authToken);
+            sumValueByDateList = iAccountService.getAccountsSumValueByCategory(userNameByToken, pieVo.getStartDate(), pieVo.getEndDate());
         }
-//        if (sumValueByDateList == null) {
-//            SumValueByDate sumValueByDate = new SumValueByDate("error",500);
-//            sumValueByDateList.add(sumValueByDate);
-//        }
-        return sumValueByDateList;
+        if(sumValueByDateList.size()==0){
+            return new CommonResponseObj(200,"期间无消费记录,请重新输入！",null);
+        }
+        return new CommonResponseObj(200,"期间消费记录已成功获取！",sumValueByDateList);
     }
 
 
