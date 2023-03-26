@@ -1,11 +1,8 @@
-import React, {Props,useState} from 'react'
-import {InfiniteScroll,NavBar,List,SwipeAction,Tag,Form,Input,Cascader,Popup,Calendar,Empty,Toast,Button} from 'antd-mobile'
-import {mockRequest} from './mock-request'
-import {GetAccountsByCondition,GetAccounts} from './request/api';
-import {Action,SwipeActionRef} from 'antd-mobile/es/components/swipe-action'
-import AutoFunction from '../component/AutoFunction'
+import React from 'react'
+import {Selector,NavBar,Form,Input,Cascader,Popup,Calendar,Empty,Toast,Button} from 'antd-mobile'
+import {GetAccountsByCondition,} from './request/api';
+import {Action} from 'antd-mobile/es/components/swipe-action'
 import WithList from '../component/WithList'
-import {payConfig} from '../customConfig/payConfig'
 import './less/home.less'
 import {Category} from  '../customConfig/catConfig'
 import {Link} from "react-router-dom";
@@ -25,7 +22,8 @@ export default class Home extends React.Component < {
 		dateRange:'',
 		keyword:'',
 		sum:0,
-		logBtn:false
+		logBtn:false,
+		type:0,
 	};
 	leftActions: Action[] = [
 		{
@@ -60,9 +58,9 @@ export default class Home extends React.Component < {
 	}
 	selectCategory=(val, extend) => {
 		this.setState({
-			categories:val[0] +' - '+ val[1]
+			categories:(val[0]===undefined?'':val[0]) +' - '+ (val[1]===undefined?'':val[1])
 		})						
-		console.log(this.state.categories)
+		console.log((val[0]===undefined?'':val[0]) +' - '+ (val[1]===undefined?'':val[1]))
 	}
 	// selectDateRange=(val)=>{
 	// 	this.setState({
@@ -78,7 +76,9 @@ export default class Home extends React.Component < {
 		const startDate = new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/1'
 		const endDate = new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/' + new Date().getDate()
 		this.setState({dateRange:startDate+' - '+endDate})
+
 		GetAccountsByCondition({
+			'type':this.state.type,
 			'startDate':startDate,
 			'endDate':endDate,
 			'keyword':'',
@@ -118,6 +118,7 @@ export default class Home extends React.Component < {
 	}
 	
 	getAccountsByCondition=()=>{
+		console.log(this.state.type)
 		console.log(this.state)
 		const startDate = this.state.dateRange.split(' - ')[0]
 		const endDate = this.state.dateRange.split(' - ')[1]
@@ -126,6 +127,7 @@ export default class Home extends React.Component < {
 		const keyword = this.state.keyword
 		console.log(this.state,keyword)
 		GetAccountsByCondition({
+			'type':this.state.type,
 			'startDate':startDate,
 			'endDate':endDate,
 			'keyword':keyword,
@@ -162,13 +164,32 @@ export default class Home extends React.Component < {
 	    })
 	render() {
 		const {accounts,visiable} = this.state
-		console.log(visiable)
 		return ( 
 			<>	
 				<NavBar onBack={this.back}>账单一览</NavBar>
 				<div className="accountsHeader" >
 					<Form layout='horizontal' mode='card'>
-					        
+							<Form.Item className='adm-form-item-label-custom' label='方式'>
+								<Selector
+									options={[
+										{
+											label: '收入',
+											value: '1',
+										},
+										{
+											label: '支出',
+											value: '0',
+										}
+									]}
+									defaultValue={['0']}
+									onChange={(arr, extend) => {
+										this.setState({type:arr[0]},()=> {
+											this.getAccountsByCondition()
+										})
+
+									}}
+								/>
+							</Form.Item>
 					        <Form.Item label='类别'>
 					          <Input placeholder='请选择类别' onFocus={this.changeCategory} value={this.state.categories}/>
 							  </Form.Item>

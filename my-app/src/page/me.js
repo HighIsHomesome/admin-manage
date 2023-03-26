@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from "react";
-import {Grid, Avatar, Modal, Form, Input, Toast, NavBar} from 'antd-mobile'
+import {Grid, Avatar, Modal, Slider, Input, Toast, NavBar,Tag} from 'antd-mobile'
 import './less/me.less'
-import {shareAccount,removeShareAccount} from "./request/api";
-
+import {Category} from  '../customConfig/catConfig'
+import {shareAccount,removeShareAccount,setQuota} from "./request/api";
 
 export default function Index(){
     let shared = ''
     let removeShared=''
+    let map = new Map()
+    useEffect(()=>{
+        Category.map(item=>{
+            map.set(item.value,0)
+        })
+
+    })
     // const [share,setShare] = useState("")
     // const [removeShare,setRemoveShare] = useState("")
     const {useNavigate } = require('react-router-dom')
@@ -140,8 +147,58 @@ export default function Index(){
                        </div>
                    </Grid.Item>
                    <Grid.Item span={3}>
-                       <div className="grid-demo-item-block-main">
-                           敬请期待
+                       <div className="grid-demo-item-block-main" onClick={()=>{
+                           if(localStorage.getItem('username')===null){
+                               Toast.show({
+                                   content: "请登录后再试!",
+                                   position: 'middle',
+                               })
+                               return false
+                           }
+                           Modal.confirm({
+                               title: '额度设置',
+                               content:
+                                   <div>
+                                       {Category.map((item,index,index1)=>
+                                           <div>
+                                               <Tag key={index1} color='#2db7f5'>{item.value}</Tag>
+                                               <Slider
+                                                   key={index}
+                                                   step={100}
+                                                   min={0}
+                                                   max={3000}
+                                                   ticks
+                                                   onAfterChange={(value)=>{
+                                                       Toast.show(`当前选中值为：${value}`)
+                                                       map.set(item.value,value)
+                                                   }}
+                                               />
+                                           </div>
+                                       )}
+                                   </div>,
+                               onConfirm: async () => {
+                                   console.log(map)
+                                   let obj = Object.create(null)
+                                   for(let[k,v] of map){
+                                       obj[k] = v
+                                   }
+                                   console.log(obj)
+                                   setQuota({
+                                       obj:obj
+                                   }).then((resp)=>{
+                                       // if(resp.code===200){
+                                       //
+                                       // }
+                                       Toast.show({
+                                           content: resp.msg,
+                                           position: 'middle',
+                                       })
+                                   })
+
+                               },
+                           })
+                       }}>
+                           额度设置
                        </div>
                    </Grid.Item>
                    <Grid.Item span={3}>

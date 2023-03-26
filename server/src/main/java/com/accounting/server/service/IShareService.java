@@ -3,6 +3,8 @@ package com.accounting.server.service;
 import com.accounting.server.pojo.Share;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类

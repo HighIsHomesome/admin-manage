@@ -17,6 +17,10 @@
         select * from share where share_account = #{userId} or shared_account = #{userId}
     </select>
 
+    <select id="getSharesByUserId" resultType="com.accounting.server.pojo.Share">
+        select * from share where share_account = #{userId} or shared_account = #{userId}
+    </select>
+
     <delete id="removeShareAccount">
         delete from share where (share_account=#{shareId} and shared_account=#{sharedId}) or
                                 ((share_account=#{sharedId} and shared_account=#{shareId}))

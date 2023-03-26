@@ -72,7 +72,7 @@
         GROUP BY category
     </select>
     <select id="getAccountsByCondition" resultType="com.accounting.server.pojo.Account">
-        select * from account where userid in
+        select *,STR_TO_DATE(date,'%Y/%m/%d') as dateSort from account where userid in
         (select share_account from share where share_account =
         (select id from t_user where username=#{username})
         or shared_account = (select id from t_user where username=#{username})
@@ -83,6 +83,7 @@
         )
         and date >= STR_TO_DATE(#{accountVO.startDate},'%Y/%m/%d')
         and date &lt;= STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d')
+        and type = #{accountVO.type}
         <if test="accountVO.keyword != null and accountVO.keyword !=''">
             and description like concat('%',#{accountVO.keyword},'%')
         </if>
@@ -92,7 +93,7 @@
         <if test="accountVO.subCategory != null and accountVO.subCategory !=''">
             and subCategory = #{accountVO.subCategory}
         </if>
-        order by STR_TO_DATE(#{accountVO.endDate},'%Y/%m/%d') desc
+        order by dateSort desc
     </select>
     <select id="getAccountsByUserName" resultType="com.accounting.server.pojo.Account">
         select * from account where userid = #{id}

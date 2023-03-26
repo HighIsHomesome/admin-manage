@@ -26,3 +26,7 @@ export const removeShareAccount = (params)=>request.get('/user/removeShareAccoun
 export const getAccountsSumValueGroupByDate = (params)=>request.post('/account/getAccountsSumValueGroupByDate',params)
 // 根据类目获取记账条目
 export const getAccountsSumValueByCategory = (params)=>request.post('/account/getAccountsSumValueByCategory',params)
+// 额度设置
+export const setQuota = (params)=>request.post('/quota/setQuota',params)
+// 获取额度
+export const getQuota = (params)=>request.post('/quota/getQuota',params)

@@ -189,6 +189,15 @@ export const Category = [{
 			}
 		]
 	},
-
-
+	{
+		label: '工资',
+		value: '工资',
+		children: [{
+			label: '小黎工资收入',
+			value: '小黎工资收入'
+		}, {
+			label: '小沈工资收入',
+			value: '小沈工资收入'
+		}]
+	}
 ]

@@ -16,8 +16,6 @@ instance.interceptors.request.use(function (config){
     if(localStorage.getItem("token")!=null){
 		console.log(localStorage.getItem("token"))
         config.headers['authorization'] = localStorage.getItem("token")
-
-
     }
     
     return config

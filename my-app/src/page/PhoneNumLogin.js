@@ -64,6 +64,8 @@ const WarningOnlyDemo = () => {
 				console.log(res.obj.user)
 				localStorage.setItem('token',res.obj.tol_token)
 				localStorage.setItem('userid',res.obj.user.id)
+				localStorage.setItem('username',res.obj.user.username)
+				localStorage.setItem('profile_photo',res.obj.user.profile_photo)
 				Toast.show({
 					content: '登录成功,即将进入主页!',
 					afterClose: () => {

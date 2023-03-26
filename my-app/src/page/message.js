@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState,useLayoutEffect} from "react";
 import {Column,Pie,Line} from '@ant-design/plots';
-import {getAccountsSumValueGroupByDate,getAccountsSumValueByCategory}  from './request/api'
+import {getAccountsSumValueGroupByDate,getAccountsSumValueByCategory,getQuota}  from './request/api'
 import {Category} from  '../customConfig/catConfig'
+import { CloseOutline, CheckOutline } from 'antd-mobile-icons'
 import {
 	Grid,
-	Toast, NavBar, Cascader, Calendar, Popup, Empty, Dropdown,Radio,Space
+	Toast, NavBar, Cascader, Calendar, Popup, Empty, Dropdown,Radio,Space,ProgressCircle,Switch,Tag
 } from 'antd-mobile';
 import './less/message.less'
-
+import App from "../App";
+var timeInternal = null
 export default function Index(){
 	const [start,setStart] = useState(new Date().getFullYear()+'/'+(new Date().getMonth()+1)+'/01')
 	const [count,setCount] = useState(0)
@@ -17,8 +19,14 @@ export default function Index(){
 	const [categoryVisiable,setCategoryVisiable] = useState(false)
 	const [startDateVisiable,setStartDateVisiable] = useState(false)
 	const [endDateVisiable,setEndDateVisiable] = useState(false)
+	const [quotaVisiable,setQuotaVisiable] = useState(false)
 	const [data,setData] = useState([]);
 	const [graphical,setGraphical] = useState("default")
+	// const categoryMap = new Map()
+	let qMap =  new Map()
+	let categoryMap = new Map()
+
+	const[quotayMap,setQuotayMap] = useState([])
 	const config = {
 		data,
 		xField: 'date',
@@ -69,6 +77,34 @@ export default function Index(){
 			},
 		],
 	};
+	const getQuotaByCategory = ()=>{
+		// 获取额度
+		getQuota().then(resp=>{
+			if(resp.code===200 && resp.obj !== null){
+				qMap =  new Map(Object.entries(resp.obj))
+			}
+		})
+		// 获取类别总值
+		getAccountsSumValueByCategory({
+			userId:localStorage.getItem('userid'),
+			startDate:start,
+			endDate:end,
+		}).then(resp=>{
+			if(resp.code===200 && resp.obj !== null){
+				for(let i = 0; i < resp.obj.length;i++){
+					categoryMap.set(resp.obj[i].category,resp.obj[i].cost)
+				}
+
+			}
+			// console.log(qMap)
+			// console.log(Category)
+			// console.log(categoryMap)
+			// Category.map(item=>{
+			// 	let a =new Map(Object.entries(categoryMap)).get(item.value)/qMap.get(item.value)
+			// 	console.log(a.toFixed(2)*100+'%')
+			// })
+		})
+	}
 	useEffect(()=>{
 
 		if(new Date(start)>new Date(end)){
@@ -93,6 +129,10 @@ export default function Index(){
 			}
 
 		}
+		if(quotaVisiable===false){
+			clearInterval(timeInternal)
+		}
+
 
 	})
 	const getAccountsByCategory = () => {
@@ -152,7 +192,7 @@ export default function Index(){
 					}
 				})
 			}}>分析中心</NavBar>
-			<div className="statistics_content">
+			<div className="statistics_content" style={{height:'80vh',overflowY:"auto"}}>
 				<Grid columns={2} gap={3}>
 					<Grid.Item span={2}>
 						<div className='grid-demo-item-block-pie'>
@@ -216,10 +256,63 @@ export default function Index(){
 					</Grid.Item>
 
 				</Grid>
-				<div style={{marginTop:'8vh'}}>
+				<div style={{marginTop:'4vh',height:'30vh'}}>
 					{data===null?(<Empty className='emptyData' description='暂无数据' />):(graphical==='default'?<Column {...config} />:graphical==='top-rated'?<Line {...config2} />:<Pie {...config1} />)}
 				</div>
+				<div>
+					<Switch
+						checkedText={<CheckOutline fontSize={18} />}
+						uncheckedText={<CloseOutline fontSize={18} />}
+						onChange={(val)=>{
+							setQuotaVisiable(val)
+							timeInternal = setInterval(()=>{
+								if(val === true){
+										getQuotaByCategory();
 
+										let obj =[]
+										Category.map(item=>{
+											if(categoryMap.get(item.value)!=undefined){
+												let a = {
+													category : item.value,
+													percent : (categoryMap.get(item.value)/qMap.get(item.value))*100
+												}
+												obj.push(a)
+											}
+										})
+										setQuotayMap(obj)
+								}
+								else{
+
+								}
+								},2000)
+							if(val===false){
+								setQuotayMap([])
+							}
+						}}
+					/>
+					<span color='#999999' style={{'marginLeft':'5px'}}>
+						您可以通过点击按钮来查看额度使用情况
+					</span>
+				</div>
+
+				{quotaVisiable===true?<Grid columns={2} gap={3} style={{overflowY:"auto",height:'60vh'}}>
+					{quotayMap.map((item,index)=>
+						<Grid.Item span={1} style={{color:(item.percent>100?'red':'green'),margin:'auto'}}>
+							<ProgressCircle
+								percent={item.percent>100?100:item.percent}
+								className= {(item.percent>100)?'circleColor':''}
+								key={index}
+								style={{
+									'--fill-color': 'var(--adm-color-success)',
+									'--size': '100px'
+								}}
+							>
+								<span>{item.category}</span><br/>
+								{item.percent.toFixed(2)+'%'}
+							</ProgressCircle>
+						</Grid.Item>
+					)}
+				</Grid>:''}
 			</div>
 			<Cascader
 				options={Category}

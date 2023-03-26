@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AccountVO {
     private String userId;
+    private String type;
     private String startDate;
     private String endDate;
     private String keyword;

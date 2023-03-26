@@ -1,5 +1,18 @@
 import React from 'react'
-import { Form,NavBar, Input,NumberKeyboard,Cascader,Popup,Calendar,CapsuleTabs,Tabs,Button,Toast } from 'antd-mobile'
+import {
+	Form,
+	NavBar,
+	Input,
+	NumberKeyboard,
+	Cascader,
+	Popup,
+	Calendar,
+	CapsuleTabs,
+	Tabs,
+	Button,
+	Toast,
+	Selector
+} from 'antd-mobile'
 import {Category} from  '../customConfig/catConfig'
 import './less/todo.less'
 import { Tab } from 'antd-mobile/es/components/tabs/tabs'
@@ -13,7 +26,8 @@ export default class Todo extends React.Component{
 	  dateVisiable:false,
 	  dateRange:'',
 	  paymethod:'wechat',
-	  description:''
+	  description:'',
+	  type:0
   }
   openKeyboard=()=>{
 	  this.setState({
@@ -30,7 +44,7 @@ export default class Todo extends React.Component{
 	  let userid = localStorage.getItem('userid')
 	  const {accountValue} = this.state
 	  AddAccount({
-		  'type':0,
+		  'type':this.state.type,
 		  'category':category,
 		  'subCategory':subCategory,
 		  'description':description,
@@ -61,8 +75,27 @@ export default class Todo extends React.Component{
 	    <>
 		  <NavBar onBack={this.back}>新增账单</NavBar>
 		  <div className="form">
-			  <Form className="loginFormContainer">
+			  <Form  className="loginFormContainer">
 				<Form.Header>新增账单信息</Form.Header>
+				  <Form.Item label='方式'>
+					  <Selector
+						  options={[
+							  {
+								  label: '收入',
+								  value: '1',
+							  },
+							  {
+								  label: '支出',
+								  value: '0',
+							  }
+						  ]}
+						  defaultValue={['0']}
+						  onChange={(arr, extend) => {
+							  this.setState({type:arr[0]===undefined?0:1})
+							  console.log(this.state.type)
+						  }}
+					  />
+				  </Form.Item>
 				<Form.Item label='消费金额'  rules={[{ required: true }, { type: 'string', min: 1 },]}>
 				  <Input placeholder='请输入金额'   onFocus={this.openKeyboard} value={this.state.accountValue}/>
 				</Form.Item>
