@@ -167,8 +167,8 @@ export default class Home extends React.Component < {
 		return ( 
 			<>	
 				<NavBar onBack={this.back}>账单一览</NavBar>
-				<div className="accountsHeader" >
-					<Form layout='horizontal' mode='card'>
+				<div className="accountsHeader">
+					<Form layout='horizontal' mode='card' style={{'height':'10rem'}}>
 							<Form.Item className='adm-form-item-label-custom' label='方式'>
 								<Selector
 									options={[
@@ -209,22 +209,29 @@ export default class Home extends React.Component < {
 							</Form.Item>
 							
 					        <Form.Header />
-					        <Form.Item className="accountsFormItem">
 
-									{accounts.length>0?(<WithList  className='list_accounts' getAccountsByCondition={this.getAccountsByCondition} accounts={accounts} ></WithList>):(
-										<div>
-											<Empty className='emptyData' description='暂无数据' />
-											{this.state.logBtn === true?
-												(<Link style={{ textDecoration:'none'}} to="/login" >
-													<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
-												</Link>):''
-											}
-
-
-										</div>)}
-
-					        </Form.Item>
 					</Form>
+					<div>
+					<Form>
+						<Form.Item className="accountsFormItem" >
+							{accounts.length>0?(<WithList  className='list_accounts' getAccountsByCondition={this.getAccountsByCondition} accounts={accounts} ></WithList>):(
+								<div>
+									<Empty className='emptyData' description='暂无数据' />
+									{this.state.logBtn === true?
+										(<Link style={{ textDecoration:'none'}} to="/login" >
+											<Button size='large' block color='primary' fill='outline'>快去登录吧！</Button>
+										</Link>):''
+									}
+
+
+								</div>)}
+
+
+						</Form.Item>
+					</Form>
+
+					</div>
+
 					<Cascader
 					  options={Category}
 					  visible={this.state.visiable}

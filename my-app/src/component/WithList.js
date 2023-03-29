@@ -48,7 +48,7 @@ const WithList: FC = (props) => {
 
 	const items = props.accounts
 	return (
-		<div style={{height:"52vh",overflowY:"auto"}}>
+		<div style={{height:"30rem",overflowY:"auto"}}>
 			{items.map(item=>(
 				<SwipeAction
 					key={item.id}
