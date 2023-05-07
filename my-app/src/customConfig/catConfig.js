@@ -1,4 +1,5 @@
-export const Category = [{
+export const Category = [
+	{
 		label: '着装',
 		value: '着装',
 		children: [{
@@ -131,22 +132,30 @@ export const Category = [{
 	{
 		label: '娱乐',
 		value: '娱乐',
-		children: [{
-				label: '手机',
-				value: '手机'
-			}, {
-				label: '其他电子产品',
-				value: '其他电子产品'
-			}, {
+		children: [
+			{
+				label: '话费',
+				value: '话费'
+			},
+			{
+				label: '电子产品',
+				value: '电子产品'
+			},
+			{
 				label: '视频会员',
 				value: '视频会员'
 			},
 			{
-				label: '游戏购买充值',
-				value: '游戏购买充值'
-			}, {
+				label: '游戏充值',
+				value: '游戏充值'
+			},
+			{
 				label: '其他',
 				value: '其他'
+			},
+			{
+				label: '旅游',
+				value: '旅游'
 			}
 		]
 	},
@@ -166,6 +175,28 @@ export const Category = [{
 			label: '书报',
 			value: '书报'
 		}]
+	},
+	{
+		label: '旅游',
+		value: '旅游',
+		children: [{
+			label: '交通',
+			value: '交通'
+		}, {
+			label: '住宿',
+			value: '住宿'
+		}, {
+			label: '小吃',
+			value: '小吃'
+		}, {
+			label: '景点门票',
+			value: '景点门票'
+		},
+			{
+				label: '其他',
+				value: '其他'
+			}
+		]
 	},
 	{
 		label: '其他',

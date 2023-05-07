@@ -2,8 +2,8 @@ import axios from 'axios'
 
 // 配置
 const axiosOption = {
-    baseURL:'https://aijishenli.xyz:8081/api/',
-    //baseURL:'https://localhost:8081/api/',
+    //baseURL:'https://aijishenli.xyz:8081/api/',
+    baseURL:'https://localhost:8081/api/',
     timeout:50000,
 
 }

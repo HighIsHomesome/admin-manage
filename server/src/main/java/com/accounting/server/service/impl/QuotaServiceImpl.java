@@ -36,8 +36,6 @@ public class QuotaServiceImpl extends ServiceImpl<QuotaMapper, Quota> implements
 
     @Override
     public boolean setQuota(Object map,Integer userId) {
-        boolean insertFlg = false;
-        boolean updateFlg = false;
         try {
             // 将Object转为Map
             Map entity = (Map) map;
@@ -48,7 +46,7 @@ public class QuotaServiceImpl extends ServiceImpl<QuotaMapper, Quota> implements
             for(int j = 0; j < quotaList.length;j++){
                 // 构建额度对象
                 Quota quota = new Quota();
-                quota.setCategory(quotaList[j].toString().split("=")[0]);
+                quota.setCategory(quotaList[j].toString().split("=")[0].replace(" ",""));
                 quota.setQuota(new BigDecimal(quotaList[j].toString().split("=")[1]));
                 quota.setCreateTime(LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault()));
                 quota.setUserid(userId);
@@ -63,6 +61,7 @@ public class QuotaServiceImpl extends ServiceImpl<QuotaMapper, Quota> implements
                     List<Share> shares = shareMapper.getSharesByUserId(userId.toString());
                     if(shares.size() == 0){
                         quotaMapper.insert(quota);
+                        continue;
                     }
                     else{
                         for(int i = 0; i < shares.size(); i++){
@@ -70,9 +69,12 @@ public class QuotaServiceImpl extends ServiceImpl<QuotaMapper, Quota> implements
                             Quota quotaResult = quotaMapper.selectOne(wapper);
                             if(quotaResult == null){
                                 quotaMapper.insert(quota);
+                                break;
+
                             }else{
                                 if(!Objects.equals(result.getQuota(), new BigDecimal(quotaList[j].toString().split("=")[1]))){
                                     quotaMapper.update(quota,wapper);
+                                    break;
                                 }
                             }
                         };

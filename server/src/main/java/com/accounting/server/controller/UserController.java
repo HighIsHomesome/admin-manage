@@ -100,7 +100,13 @@ public class UserController {
         if(!bCryptPasswordEncoder.matches(user.getPassword(),result.getPassword())){
             return new CommonResponseObj(500,"用户名或密码不正确!",null);
         }
+
         String token = JwtUtil.generateToken(result);
+
+        // 将token存入redis设置过期时间为86400秒
+        ValueOperations<String,Object> valueOperations =  redisTemplate.opsForValue();
+        valueOperations.set("token", token, 86400, TimeUnit.SECONDS);
+
         Map<String,Object> map = new HashMap<>();
         map.put("tol_token",token);
         map.put("user",result);
