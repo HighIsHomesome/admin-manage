@@ -32,7 +32,7 @@ spring:
     # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.13:3306/accounting?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://123.60.163.82:3306/accounting?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
     username: root
     password: 520syyufonlyone
     hikari:
