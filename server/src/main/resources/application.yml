@@ -1,8 +1,8 @@
 server.port: 8081
 server:
-  ssl:
-    key-store: classpath:aijishenli.xyz.jks
-    key-store-password: 0gx2p07u9vsz4l
+  #ssl:
+  #  key-store: classpath:aijishenli.xyz.jks
+  #  key-store-password: 0gx2p07u9vsz4l
 APPID: wx6a012f422b0fb1db
 APP_SECRET: 09954c0750fbe913d553effab8b1ffbb
 
