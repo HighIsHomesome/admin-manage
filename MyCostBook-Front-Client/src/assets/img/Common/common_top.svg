@@ -1,0 +1,14 @@
+<svg width="414.000000" height="287.000000" viewBox="0 0 414 287" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<g id="Rectangle 9">
+		<path d="M0 0L414 0L414 261.759C414 261.759 366 287 207 287C48 287 0 261.759 0 261.759L0 0Z" fill-rule="nonzero" fill="url(#paint_linear_1_671_0)"/>
+	</g>
+	<defs>
+		<linearGradient id="paint_linear_1_671_0" x1="-10.500000" y1="-17.071320" x2="434.499847" y2="275.352631" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#429690"/>
+			<stop offset="1.000000" stop-color="#2A7C76"/>
+		</linearGradient>
+	</defs>
+</svg>

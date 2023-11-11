@@ -1,0 +1,19 @@
+html {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: saddlebrown;
+}
+
+img {
+    vertical-align: top;
+}

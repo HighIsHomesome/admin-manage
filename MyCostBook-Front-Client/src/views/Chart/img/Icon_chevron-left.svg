@@ -1,0 +1,17 @@
+<svg width="28.000000" height="28.000000" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<g id="Icon/chevron-left">
+		<g clip-path="url(#clip1_522)">
+			<g id="Icon">
+				<path d="M17.7899 7.41006C18.3367 7.95679 18.3367 8.8432 17.7899 9.38995L13.1799 14L17.7899 18.61C18.3367 19.1568 18.3367 20.0432 17.7899 20.5899C17.2432 21.1367 16.3568 21.1367 15.8101 20.5899L10.21 14.99C9.66331 14.4432 9.66331 13.5568 10.21 13.01L15.8101 7.41006C16.3568 6.86331 17.2432 6.86331 17.7899 7.41006Z" fill-rule="evenodd" fill="#424242"/>
+			</g>
+		</g>
+	</g>
+	<defs>
+		<clipPath id="clip1_522">
+			<rect width="28.000000" height="28.000000" fill="white"/>
+		</clipPath>
+	</defs>
+</svg>
