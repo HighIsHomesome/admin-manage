@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accounting.server.mapper.ShareMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.accounting.server.pojo.Share">
+        <id column="id" property="id" />
+        <result column="share_account" property="shareAccount" />
+        <result column="shared_account" property="sharedAccount" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, share_account, shared_account
+    </sql>
+    <select id="getShares" resultType="com.accounting.server.pojo.Share">
+        select * from share where share_account = #{userId} or shared_account = #{userId}
+    </select>
+
+    <select id="getSharesByUserId" resultType="com.accounting.server.pojo.Share">
+        select * from share where share_account = #{userId} or shared_account = #{userId}
+    </select>
+
+    <delete id="removeShareAccount">
+        delete from share where (share_account=#{shareId} and shared_account=#{sharedId}) or
+                                ((share_account=#{sharedId} and shared_account=#{shareId}))
+    </delete>
+</mapper>

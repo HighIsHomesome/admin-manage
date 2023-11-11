@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accounting.server.mapper.QuotaMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.accounting.server.pojo.Quota">
+        <id column="id" property="id" />
+        <result column="category" property="category" />
+        <result column="sub_categoty" property="subCategoty" />
+        <result column="userid" property="userid" />
+        <result column="create_time" property="createTime" />
+        <result column="text_area" property="textArea" />
+        <result column="text_area1" property="textArea1" />
+        <result column="text_area2" property="textArea2" />
+        <result column="quota" property="quota" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, category, sub_categoty, userid, create_time, text_area, text_area1, text_area2, quota
+    </sql>
+
+</mapper>
