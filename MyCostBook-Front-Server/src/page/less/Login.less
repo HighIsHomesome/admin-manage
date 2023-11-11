@@ -1,0 +1,136 @@
+.logoPng{
+	height: 10vh;
+	width: 15vw;
+
+}
+.titlePng{
+	height: 10vh;
+	width: 75vw;
+}
+.background{
+	position: absolute;
+}
+.title{
+	font-size: 30px;
+}
+//.adm-list{
+//	margin-top: 10vh;
+//}
+
+.adm-list-body{
+	border-radius: 10px;
+	width: 90vw;
+	margin: auto;
+}
+#water{
+	width: 150px;
+	height: 100px;
+
+	margin: auto;
+	border-radius: 37% 63% 70% 30% / 34% 52% 48% 66% ;
+	box-shadow: inset 4px 7px 10px rgb(0,0,0,0.5),
+				4px 4px 7px rgb(0,0,0,0.3),
+				6px 6px 10px rgb(0,0,0,0.05),
+				inset -4px -4px 7px rgb(255,255,255,0.5)
+				;
+	animation: action 3s linear infinite alternate;
+	#first{
+		position: absolute;
+		line-height: 100px;
+		margin-left:30% ;
+		font-size: 25px;
+		color: #34495e;
+		animation: firstAction 8s linear infinite alternate;
+	}
+	#second{
+		position: absolute;
+		line-height: 100px;
+		margin-left:30% ;
+		font-size: 25px;
+		color: #34495e;
+		animation: secondAction 5s linear infinite alternate;
+	}
+	#third{
+		position: absolute;
+		line-height: 100px;
+		margin-left:30% ;
+		font-size: 25px;
+		color: #34495e;
+		animation: thirdAction 6s linear infinite alternate;
+	}
+	#fourth {
+		position: absolute;
+		line-height: 100px;
+		margin-left:30% ;
+		font-size: 25px;
+		color: #34495e;
+		animation: fourthAction 7s linear infinite alternate;
+	}
+}
+@keyframes action {
+	25% {
+		border-radius: 37% 63% 70% 30% / 71% 52% 48% 29%;
+	}
+	50% {
+		border-radius: 61% 39% 36% 64% / 71% 52% 48% 29%;
+	}
+	100% {
+		border-radius: 31% 69% 36% 64% / 71% 39% 61% 29%;
+	}
+}
+@keyframes firstAction {
+	25%{
+		margin-left: 6%;
+	}
+	50%{
+		margin-top: 7%;
+	}
+	75%{
+		margin-bottom: 5%;
+	}
+	100%{
+		margin-right: 20%;
+	}
+}
+@keyframes secondAction {
+	25%{
+		margin-top: 5%;
+	}
+	50%{
+		margin-left: 10%;
+	}
+	75%{
+		margin-right: 10%;
+	}
+	100%{
+		margin-bottom: 10%;
+	}
+}
+@keyframes thirdAction {
+	25%{
+		margin-right: 8%;
+	}
+	50%{
+		margin-bottom: 15%;
+	}
+	75%{
+		margin-left: 9%;
+	}
+	100%{
+		margin-top: -3%;
+	}
+}
+@keyframes fourthAction {
+	25%{
+		margin-bottom: 7%;
+	}
+	50%{
+		margin-left: 9%;
+	}
+	75%{
+		margin-top: 3%;
+	}
+	100%{
+		margin-right: 8%;
+	}
+}
